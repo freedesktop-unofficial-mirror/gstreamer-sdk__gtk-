@@ -96,6 +96,7 @@ TESTS = autotestkeywords
 
 autotestkeywords_SOURCES = autotestkeywords.cc
 autotestkeywords_CPPFLAGS = -I$(srcdir)/dummy-headers
+autotestkeywords_LDFLAGS = $(GDK_DEP_LIBS)
 
 if HAVE_OBJC
 autotestkeywords_CPPFLAGS += -DHAVE_OBJC=1 -x objective-c++
