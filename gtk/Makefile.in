@@ -5361,11 +5361,11 @@ stamp-icons: $(STOCK_ICONS)
 	) done 								\
 	&& touch stamp-icons
 
-gtkbuiltincache.h: @REBUILD@ stamp-icons
-	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
-	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
-	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
-	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
+@OS_LINUX_TRUE@gtkbuiltincache.h: @REBUILD@ stamp-icons
+@OS_LINUX_TRUE@	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+@OS_LINUX_TRUE@	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
+@OS_LINUX_TRUE@	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
+@OS_LINUX_TRUE@	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
 
 install-data-local:
 
