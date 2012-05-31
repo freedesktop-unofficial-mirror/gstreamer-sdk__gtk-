@@ -828,6 +828,20 @@ gtk_rc_parse_named (GtkRcContext *context,
 	}
     }
 
+#ifdef GST_SDK_GTK_DISTRO_GTK_THEME_PATH
+  if (!path)
+    {
+      const gchar *theme_dir = GST_SDK_GTK_DISTRO_GTK_THEME_PATH;
+      path = g_build_filename (theme_dir, name, subpath, NULL);
+      
+      if (!g_file_test (path, G_FILE_TEST_EXISTS))
+	{
+	  g_free (path);
+	  path = NULL;
+	}
+    }
+#endif
+
   if (path)
     {
       gtk_rc_context_parse_file (context, path, GTK_PATH_PRIO_THEME, FALSE);

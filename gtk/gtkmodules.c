@@ -61,6 +61,7 @@ get_module_path (void)
   gchar *module_path;
   gchar *default_dir;
   static gchar **result = NULL;
+  gchar *distro_path = NULL, *distro_path2 = NULL;
 
   if (result)
     return result;
@@ -77,18 +78,26 @@ get_module_path (void)
   else
     default_dir = g_build_filename (GTK_LIBDIR, "gtk-2.0", NULL);
 
+#ifdef GST_SDK_GTK_DISTRO_GTK_MODULE_PATH
+  distro_path = GST_SDK_GTK_DISTRO_GTK_MODULE_PATH;
+#endif
+
+#ifdef GST_SDK_GTK_DISTRO_GTK_MODULE_PATH2
+  distro_path2 = GST_SDK_GTK_DISTRO_GTK_MODULE_PATH2;
+#endif
+
   if (module_path_env && home_gtk_dir)
     module_path = g_build_path (G_SEARCHPATH_SEPARATOR_S,
-				module_path_env, home_gtk_dir, default_dir, NULL);
+				module_path_env, home_gtk_dir, default_dir, distro_path, distro_path2, NULL);
   else if (module_path_env)
     module_path = g_build_path (G_SEARCHPATH_SEPARATOR_S,
-				module_path_env, default_dir, NULL);
+				module_path_env, default_dir, distro_path, distro_path2, NULL);
   else if (home_gtk_dir)
     module_path = g_build_path (G_SEARCHPATH_SEPARATOR_S,
-				home_gtk_dir, default_dir, NULL);
+				home_gtk_dir, default_dir, distro_path, distro_path2, NULL);
   else
     module_path = g_build_path (G_SEARCHPATH_SEPARATOR_S,
-				default_dir, NULL);
+				default_dir, distro_path, distro_path2, NULL);
 
   g_free (home_gtk_dir);
   g_free (default_dir);
