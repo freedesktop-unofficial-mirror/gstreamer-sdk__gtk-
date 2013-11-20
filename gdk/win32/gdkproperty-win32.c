@@ -155,7 +155,7 @@ gdk_property_change (GdkWindow    *window,
 {
   HGLOBAL hdata;
   gint i, size;
-  guchar *ucptr, *buf = NULL;
+  guchar *ucptr;
   wchar_t *wcptr, *p;
   glong wclen;
 
@@ -206,7 +206,7 @@ gdk_property_change (GdkWindow    *window,
 	  wclen++;		/* Terminating 0 */
 	  size = wclen * 2;
 	  for (i = 0; i < wclen; i++)
-	    if (wcptr[i] == '\n')
+	    if (wcptr[i] == '\n' && (i == 0 || wcptr[i - 1] != '\r'))
 	      size += 2;
 	  
 	  if (!(hdata = GlobalAlloc (GMEM_MOVEABLE, size)))
@@ -214,7 +214,7 @@ gdk_property_change (GdkWindow    *window,
 	      WIN32_API_FAILED ("GlobalAlloc");
 	      if (!CloseClipboard ())
 		WIN32_API_FAILED ("CloseClipboard");
-	      g_free (buf);
+	      g_free (wcptr);
 	      return;
 	    }
 
@@ -223,7 +223,7 @@ gdk_property_change (GdkWindow    *window,
 	  p = (wchar_t *) ucptr;
 	  for (i = 0; i < wclen; i++)
 	    {
-	      if (wcptr[i] == '\n')
+	      if (wcptr[i] == '\n' && (i == 0 || wcptr[i - 1] != '\r'))
 		*p++ = '\r';
 	      *p++ = wcptr[i];
 	    }

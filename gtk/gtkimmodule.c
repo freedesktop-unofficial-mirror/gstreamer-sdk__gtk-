@@ -250,7 +250,7 @@ correct_libdir_prefix (gchar **path)
       /* This is an entry put there by make install on the
        * packager's system. On Windows a prebuilt GTK+
        * package can be installed in a random
-       * location. The gtk.immodules file distributed in
+       * location. The immodules.cache file distributed in
        * such a package contains paths from the package
        * builder's machine. Replace the path with the real
        * one on this machine.
@@ -658,12 +658,14 @@ lookup_immodule (gchar **immodules_list)
       if (g_strcmp0 (*immodules_list, SIMPLE_ID) == 0)
         return SIMPLE_ID;
       else
-       {
-         GtkIMModule *module;
-         module = g_hash_table_lookup (contexts_hash, *immodules_list);
-         if (module)
-           return module->contexts[0]->context_id;
-       }
+	{
+	  gboolean found;
+	  gchar *context_id;
+	  found = g_hash_table_lookup_extended (contexts_hash, *immodules_list,
+						&context_id, NULL);
+	  if (found)
+	    return context_id;
+	}
       immodules_list++;
     }
 

@@ -74,7 +74,7 @@
       <PreprocessorDefinitions>_DEBUG;G_ENABLE_DEBUG;$(GtkDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -193,10 +193,6 @@
     <ClCompile Include="..\..\..\modules\input\imti-et.c" />
     <ClCompile Include="..\..\..\modules\input\imviqr.c" />
     <ClCompile Include="..\..\..\modules\input\thai-charprop.c" />
-    <ClCompile Include="..\..\..\modules\engines\ms-windows\msw_rc_style.c" />
-    <ClCompile Include="..\..\..\modules\engines\ms-windows\msw_style.c" />
-    <ClCompile Include="..\..\..\modules\engines\ms-windows\msw_theme_main.c" />
-    <ClCompile Include="..\..\..\modules\engines\ms-windows\xp_theme.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="gdk.vcxproj">

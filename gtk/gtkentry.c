@@ -1759,27 +1759,6 @@ gtk_entry_class_init (GtkEntryClass *class)
                                                                   FALSE,
                                                                   GTK_PARAM_READABLE));
 
-   gtk_settings_install_property (g_param_spec_boolean ("gtk-entry-select-on-focus",
-						       P_("Select on focus"),
-						       P_("Whether to select the contents of an entry when it is focused"),
-						       TRUE,
-						       GTK_PARAM_READWRITE));
-
-  /**
-   * GtkSettings:gtk-entry-password-hint-timeout:
-   *
-   * How long to show the last input character in hidden
-   * entries. This value is in milliseconds. 0 disables showing the
-   * last char. 600 is a good value for enabling it.
-   *
-   * Since: 2.10
-   */
-  gtk_settings_install_property (g_param_spec_uint ("gtk-entry-password-hint-timeout",
-                                                    P_("Password Hint Timeout"),
-                                                    P_("How long to show the last input character in hidden entries"),
-                                                    0, G_MAXUINT, 0,
-                                                    GTK_PARAM_READWRITE));
-
   g_type_class_add_private (gobject_class, sizeof (GtkEntryPrivate));
 }
 
@@ -2471,6 +2450,7 @@ gtk_entry_dispose (GObject *object)
   gtk_entry_set_icon_tooltip_markup (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
   gtk_entry_set_icon_from_pixbuf (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
   gtk_entry_set_icon_tooltip_markup (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
+  gtk_entry_set_completion (entry, NULL);
 
   if (priv->buffer)
     {
@@ -2504,8 +2484,6 @@ gtk_entry_finalize (GObject *object)
           priv->icons[i] = NULL;
         }
     }
-
-  gtk_entry_set_completion (entry, NULL);
 
   if (entry->cached_layout)
     g_object_unref (entry->cached_layout);
